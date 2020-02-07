@@ -85,6 +85,18 @@ jsonResponse = restClient.blockfacts.getCurrentData(["BTC", "ETH"], ["USD", "EUR
 jsonResponse = restClient.blockfacts.getCurrentData("BTC, ETH", "USD, EUR")
 ```
 
+### Snapshot data
+Get last 20 BlockFacts normalized prices for provided asset-denominator pairs.
+- [`getSnapshotData(assets, denominators)`](https://docs.blockfacts.io/?python#data-snapshot)
+
+```python
+jsonResponse = restClient.blockfacts.getSnapshotData(["BTC", "ETH"], ["USD", "EUR"])
+
+# OR
+
+jsonResponse = restClient.blockfacts.getSnapshotData("BTC, ETH", "USD, EUR")
+```
+
 ### Historical data
 Get historical normalization data by asset-denominator, date, time and interval.
 - [`getHistoricalData(asset, denominator, date, time, interval, page)`](https://docs.blockfacts.io/?python#historical-data)
@@ -148,7 +160,19 @@ jsonResponse = restClient.exchanges.getCurrentTradeData(["BTC", "ETH"], ["USD", 
 
 # OR
 
-restClient.exchanges.getCurrentTradeData("BTC, ETH", "USD, GBP", "KRAKEN, COINBASE")
+jsonResponse = restClient.exchanges.getCurrentTradeData("BTC, ETH", "USD, GBP", "KRAKEN, COINBASE")
+```
+
+### Snapshot trade data
+Get 20 latest trades that happened on the requested exchange(s) and pairs.
+- [`getSnapshotTradeData(assets, denominators, exchanges)`](https://docs.blockfacts.io/?python#snapshot-trade-data)
+
+```python
+jsonResponse = restClient.exchanges.getSnapshotTradeData(["BTC", "ETH"], ["USD", "GBP"], ["KRAKEN", "COINBASE"])
+
+# OR
+
+jsonResponse = restClient.exchanges.getSnapshotTradeData("BTC, ETH", "USD, GBP", "KRAKEN, COINBASE")
 ```
 
 ### Historical trade data
@@ -252,6 +276,24 @@ def on_open():
     ])
 ```
 
+The `subscribe` type message supports two more optional parameters which are `id` and `snapshot`. You can pass those parameters after the listed channels dictionary in the `subscribe()` function. 
+
+```python
+websocketClient.subscribe([
+    {
+        "name":"BLOCKFACTS",
+        "pairs": [
+            "BTC-USD"
+        ]
+    },
+    {
+        "name":"HEARTBEAT"
+    }
+], "some-id", True)
+```
+
+To read more about the `snapshot` type message, please refer to our official documentation: https://docs.blockfacts.io/?python#snapshot
+
 ### Unsubscribing
 If you wish to unsubscribe from certain channels or pairs, you can do so by sending the `unsubscribe` type message.
 
@@ -270,8 +312,10 @@ websocketClient.unsubscribe([
     {
       "name":"KRAKEN"
     }
-])
+], 12345)
 ```
+
+The `unsubscribe` type message supports one more optional parameter which is `id`. You can pass this parameter after the listed channels dictionary in the `unsubscribe()` function. 
 
 ### Ping
 Clients can send `ping` type messages to determine if the server is online.
@@ -279,6 +323,8 @@ Clients can send `ping` type messages to determine if the server is online.
 ```python
 websocketClient.ping()
 ```
+
+The `ping` type message supports one optional parameter which is `id`. You can pass this parameter in the `ping()` function. 
 
 ### Pong
 Clients must respond to `ping` type messages sent from the server with a `pong` type message.
@@ -299,6 +345,9 @@ def on_msg(message):
 
     if data["type"] == 'subscribed':
       # Subscribed type message  
+
+    if data["type"] == 'snapshot':
+      # Snapshot type message  
 
     if data["type"] == 'unsubscribed':
       # Unsubscribed type message    

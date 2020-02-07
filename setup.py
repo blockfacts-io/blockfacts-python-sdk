@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 NAME = "blockfacts-sdk"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 REQUIRES = ['requests','websocket-client']
 
 with open("README.md", 'r') as f:
@@ -16,7 +16,7 @@ setup(
     author = "BlockFacts Ltd.",
     author_email="marko@blockfacts.io",
     url="https://github.com/blockfacts-io/blockfacts-python-sdk",
-    keywords=["BlockFacts", "BlockFacts API", "Crypto API", "Crypto Assets API", "Unified Cryptocurrency API", "BlockFacts SDK", "BlockFacts Python", "Blockchain API"],
+    keywords=["BlockFacts", "BlockFacts API", "Crypto API", "Crypto Assets API", "Unified Cryptocurrency API", "BlockFacts SDK", "BlockFacts Python", "Blockchain API", "Digital Assets API", "Digital Asset API"],
     install_requires=REQUIRES,
     packages=find_packages(),
     license="MIT",

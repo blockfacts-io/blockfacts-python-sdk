@@ -64,40 +64,59 @@ class WebsocketClient(object):
     @param {list} channels List of channels (dict) you are subscibing to.
     Reference: https://docs.blockfacts.io/#subscribe
     """    
-    def subscribe(self, channels):
+    def subscribe(self, channels, msgId = None, snapshot = None):
         if type(channels) != list:            
             raise Exception("Parameter 'channels' must be of 'list' type")
-        
-        self.ws.send(json.dumps({
+
+        subscribeMsg = {
             "type":"subscribe",
             "X-API-KEY":self.key,
             "X-API-SECRET":self.secret,
             "channels": channels
-        }))
+        }
+
+        if msgId is not None:
+            subscribeMsg['id'] = msgId
+
+        if snapshot is not None:
+            if type(snapshot) != bool:            
+                raise Exception("Parameter 'snapshot' must be of 'bool' type")
+            subscribeMsg['snapshot'] = snapshot
+
+        self.ws.send(json.dumps(subscribeMsg))
     
     """
     Unsubscribe method used to unsubscribe from certain channels or pairs.
     @param {list} channels List of channels (dict) you are unsubscibing from.
     Reference: https://docs.blockfacts.io/#unsubscribe
     """
-    def unsubscribe(self, channels):
+    def unsubscribe(self, channels, msgId = None):
         if type(channels) != list:            
             raise Exception("Parameter 'channels' must be of 'list' type")
-        
-        self.ws.send(json.dumps({
+
+        unsubscribeMsg = {
             "type":"unsubscribe",
             "channels": channels
-        }))
+        }
+
+        if msgId is not None:
+            unsubscribeMsg['id'] = msgId
+
+        self.ws.send(json.dumps(unsubscribeMsg))
 
     """
     Sends a ping type message to the server to determine if the server is online.
     Reference: https://docs.blockfacts.io/#ping
     """
-    def ping(self):   
-        self.ws.send(json.dumps({
+    def ping(self, msgId = None):   
+        pingMsg = {
             "type":"ping"
-        }))
-    
+        }
+
+        if msgId is not None:
+            pingMsg['id'] = msgId
+        
+        self.ws.send(json.dumps(pingMsg))    
 
     """
     Sends a pong type message to the server to let the server know that the client is still connected.

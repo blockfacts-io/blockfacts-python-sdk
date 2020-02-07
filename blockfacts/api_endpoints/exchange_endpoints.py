@@ -71,6 +71,49 @@ class ExchangeEndpoints(object):
         return response.json()  
 
     """
+    Gets 20 latest trades that happened on the requested exchange(s) and pairs.
+    @param {list/string} assets Asset list or comma-separated string.
+    @param {list/string} denominators Denominator list or comma-separated string.
+    @param {list/string} exchanges Exchange list or comma-separated string.
+    Reference: https://docs.blockfacts.io/?python#snapshot-trade-data
+    """
+    def getSnapshotTradeData(self, assets, denominators, exchanges):
+        assetsString = ""
+        denominatorsString = ""
+        exchangesString = ""
+
+        if type(assets) != list and type(assets) != str:
+            raise Exception("Parameter 'assets' must be of 'str' or 'list' type")
+
+        if type(denominators) != list and type(denominators) != str:
+            raise Exception("Parameter 'denominators' must be of 'str' or 'list' type")
+
+        if type(exchanges) != list and type(exchanges) != str:
+            raise Exception("Parameter 'exchanges' must be of 'str' or 'list' type")
+
+        if isinstance(assets, list):
+            assetsString = ','.join([str(x) for x in assets])
+        else:
+            assetsString = assets
+
+        if isinstance(denominators, list):
+            denominatorsString = ','.join([str(x) for x in denominators])
+        else:
+            denominatorsString = denominators
+
+        if isinstance(exchanges, list):
+            exchangesString = ','.join([str(x) for x in exchanges])
+        else:
+            exchangesString = exchanges
+
+        assetsString = assetsString.replace(" ", "")
+        denominatorsString = denominatorsString.replace(" ", "")
+        exchangesString = exchangesString.replace(" ", "")
+
+        response = requests.get('https://api.blockfacts.io/api/v1/exchanges/trades/snapshot?asset=' + assetsString + "&denominator=" + denominatorsString + "&exchange=" + exchangesString, headers=self.headers)
+        return response.json()
+
+    """
     Gets exchange historical price by asset-denominator, exchange, date, time and interval.
     @param {string} asset 
     @param {string} denominator 

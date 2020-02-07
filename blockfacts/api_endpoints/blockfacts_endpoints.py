@@ -65,6 +65,38 @@ class BlockfactsEndpoints(object):
         return response.json()
 
     """
+    Gets last 20 BlockFacts normalized prices for provided asset-denominator pairs.
+    @param {list/string} assets Asset list or comma-separated string.
+    @param {list/string} denominators Denominator list or comma-separated string.
+    Reference: https://docs.blockfacts.io/?python#data-snapshot
+    """   
+    def getSnapshotData(self, assets, denominators):
+        assetsString = ""
+        denominatorsString = ""
+
+        if type(assets) != list and type(assets) != str:
+            raise Exception("Parameter 'assets' must be of 'str' or 'list' type")
+
+        if type(denominators) != list and type(denominators) != str:
+            raise Exception("Parameter 'denominators' must be of 'str' or 'list' type")
+
+        if isinstance(assets, list):
+            assetsString = ','.join([str(x) for x in assets])
+        else:
+            assetsString = assets
+
+        if isinstance(denominators, list):
+            denominatorsString = ','.join([str(x) for x in denominators])
+        else:
+            denominatorsString = denominators
+
+        assetsString = assetsString.replace(" ", "")
+        denominatorsString = denominatorsString.replace(" ", "")
+
+        response = requests.get('https://api.blockfacts.io/api/v1/blockfacts/price/snapshot?asset=' + assetsString + "&denominator=" + denominatorsString, headers=self.headers)
+        return response.json()
+
+    """
     Gets historical normalization data by asset-denominator, date, time and interval.
     @param {string} asset 
     @param {string} denominator 
