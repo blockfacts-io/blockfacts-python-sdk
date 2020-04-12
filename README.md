@@ -86,7 +86,7 @@ jsonResponse = restClient.blockfacts.getCurrentData("BTC, ETH", "USD, EUR")
 ```
 
 ### Snapshot data
-Get last 20 BlockFacts normalized prices for provided asset-denominator pairs.
+Get last 600 BlockFacts normalized prices for provided asset-denominator pairs.
 - [`getSnapshotData(assets, denominators)`](https://docs.blockfacts.io/?python#data-snapshot)
 
 ```python
@@ -164,7 +164,7 @@ jsonResponse = restClient.exchanges.getCurrentTradeData("BTC, ETH", "USD, GBP", 
 ```
 
 ### Snapshot trade data
-Get 20 latest trades that happened on the requested exchange(s) and pairs.
+Get 600 latest trades that happened on the requested exchange(s) and pairs.
 - [`getSnapshotTradeData(assets, denominators, exchanges)`](https://docs.blockfacts.io/?python#snapshot-trade-data)
 
 ```python

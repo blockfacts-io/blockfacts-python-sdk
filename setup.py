@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 NAME = "blockfacts-sdk"
-VERSION = "1.0.1"
+VERSION = "1.0.2"
 REQUIRES = ['requests','websocket-client']
 
 with open("README.md", 'r') as f:
