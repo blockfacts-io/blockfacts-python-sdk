@@ -97,6 +97,19 @@ jsonResponse = restClient.blockfacts.getSnapshotData(["BTC", "ETH"], ["USD", "EU
 jsonResponse = restClient.blockfacts.getSnapshotData("BTC, ETH", "USD, EUR")
 ```
 
+### OHLCV Snapshot data
+Gets the snapshot of Blockfacts OHLCV data for provided asset-denominator pairs and intervals.
+- [`getOHLCVSnapshotData(assets, denominators, intervals)`](https://docs.blockfacts.io/?python#data-snapshot-ohlcv-blockfacts)
+
+```python
+jsonResponse = restClient.blockfacts.getOHLCVSnapshotData(["BTC", "ETH"], ["USD", "EUR"], ["30s", "1m", "1h"])
+
+# OR
+
+jsonResponse = restClient.blockfacts.getOHLCVSnapshotData("BTC, ETH", "USD, EUR", "30s, 1m, 1h")
+```
+**Note:** You can find all supported intervals on our official documentation here: https://docs.blockfacts.io/?python#data-snapshot-ohlcv-blockfacts
+
 ### Historical data
 Get historical normalization data by asset-denominator, date, time and interval.
 - [`getHistoricalData(asset, denominator, date, time, interval, page)`](https://docs.blockfacts.io/?python#historical-data)
@@ -107,6 +120,18 @@ jsonResponse = restClient.blockfacts.getHistoricalData("BTC", "USD", "2.9.2019",
 # OR with page parameter (optional)
 
 jsonResponse = restClient.blockfacts.getHistoricalData("BTC", "USD", "2.9.2019", "14:00:00", 20, 3)
+```
+
+### OHLCV Historical data
+Get historical OHLCV data by asset-denominator, date, time and interval.
+- [`getHistoricalOHLCVData(asset, denominator, interval, dateStart, timeStart, dateEnd, timeEnd, page)`](https://docs.blockfacts.io/?python#ohlcv-historical-data)
+
+```python
+jsonResponse = restClient.blockfacts.getHistoricalOHLCVData("BTC", "USD", "1d", "5.8.2020", "14:00:00", "10.8.2020", "14:00:00")
+
+# OR with page parameter (optional)
+
+jsonResponse = restClient.blockfacts.getHistoricalOHLCVData("BTC", "USD", "1d", "5.8.2020", "14:00:00", "10.8.2020", "14:00:00", 2)
 ```
 
 ### Specific historical data
@@ -125,12 +150,12 @@ Get all running normalization pairs. Resulting in which asset-denominator pairs 
 jsonResponse = restClient.blockfacts.getNormalizationPairs()
 ```
 
-### End of day data
-Get normalized end of day data for specific asset-denominator.
-- [`getEndOfDayData(asset, denominator, length)`](https://docs.blockfacts.io/?python#end-of-day-data)
+### Period movers
+Get the moving percentage, and difference in price over a certain time period.
+- [`getPeriodMovers(denominator, date, interval, sort)`](https://docs.blockfacts.io/?python#period-movers)
 
 ```python
-jsonResponse = restClient.blockfacts.getEndOfDayData("BTC", "USD", 1)
+jsonResponse = restClient.blockfacts.getPeriodMovers("USD", "11.8.2020", "sevenDay", -1)
 ```
 
 ## Exchange endpoints
@@ -163,6 +188,14 @@ jsonResponse = restClient.exchanges.getCurrentTradeData(["BTC", "ETH"], ["USD", 
 jsonResponse = restClient.exchanges.getCurrentTradeData("BTC, ETH", "USD, GBP", "KRAKEN, COINBASE")
 ```
 
+### Pair info
+Get the Blockfacts pair representation of the provided exchange pair.
+- [`getPairInfo(exchange, pair)`](https://docs.blockfacts.io/?python#pair-info)
+
+```python
+jsonResponse = restClient.exchanges.getPairInfo("BITSTAMP", "BTCUSD")
+```
+
 ### Snapshot trade data
 Get 600 latest trades that happened on the requested exchange(s) and pairs.
 - [`getSnapshotTradeData(assets, denominators, exchanges)`](https://docs.blockfacts.io/?python#snapshot-trade-data)
@@ -175,6 +208,20 @@ jsonResponse = restClient.exchanges.getSnapshotTradeData(["BTC", "ETH"], ["USD",
 jsonResponse = restClient.exchanges.getSnapshotTradeData("BTC, ETH", "USD, GBP", "KRAKEN, COINBASE")
 ```
 
+### Snapshot OHLCV data
+ Gets the snapshot of provided exchange(s) OHLCV data for provided asset-denominator pairs and intervals.
+- [`getOHLCVSnapshotData(assets, denominators, exchanges, intervals)`](https://docs.blockfacts.io/?python#data-snapshot-ohlcv-exchange)
+
+```python
+jsonResponse = restClient.exchanges.getOHLCVSnapshotData(["BTC", "ETH"], ["USD", "GBP"], ["KRAKEN", "COINBASE"], ["30s", "1m", "1h"])
+
+# OR
+
+jsonResponse = restClient.exchanges.getOHLCVSnapshotData("BTC, ETH", "USD, GBP", "KRAKEN, COINBASE", "30s, 1m, 1h")
+```
+
+**Note:** You can find all supported intervals on our official documentation here: https://docs.blockfacts.io/?python#data-snapshot-ohlcv-exchange
+
 ### Historical trade data
 Get exchange historical price by asset-denominator, exchange, date, time and interval.
 - [`getHistoricalTradeData(asset, denominator, exchanges, date, time, interval, page)`](https://docs.blockfacts.io/?python#historical-trade-data)
@@ -185,6 +232,18 @@ jsonResponse = restClient.exchanges.getHistoricalTradeData("BTC", "USD", ["KRAKE
 # OR with page parameter (optional)
 
 jsonResponse = restClient.exchanges.getHistoricalTradeData("BTC", "USD", "KRAKEN, COINBASE", "2.9.2019", "14:00:00", 20, 3)
+```
+
+### OHLCV Historical data
+Get historical OHLCV data by asset-denominator, exchange, date, time and interval.
+- [`getHistoricalOHLCVData(asset, denominator, exchanges, interval, dateStart, timeStart, dateEnd, timeEnd, page)`](https://docs.blockfacts.io/?python#ohlcv-historical-data-2)
+
+```python
+jsonResponse = restClient.exchanges.getHistoricalOHLCVData("BTC", "USD", ["KRAKEN", "COINBASE"], "1d", "5.8.2020", "14:00:00", "10.8.2020", "14:00:00")
+
+# OR with page parameter (optional)
+
+jsonResponse = restClient.exchanges.getHistoricalOHLCVData("BTC", "USD", "KRAKEN, COINBASE", "1d", "5.8.2020", "14:00:00", "10.8.2020", "14:00:00", 1)
 ```
 
 ### Specific trade data
@@ -199,12 +258,20 @@ jsonResponse = restClient.exchanges.getSpecificTradeData("BTC", "USD", ["KRAKEN"
 jsonResponse = restClient.exchanges.getSpecificTradeData("BTC", "USD", "KRAKEN, COINBASE", "2.9.2019", "14:00:00")
 ```
 
-### End of day data
-Get exchange end of day data for specific asset-denominator and exchange
-- [`getEndOfDayData(asset, denominator, exchange, length)`](https://docs.blockfacts.io/?python#end-of-day-data-2)
+### Total trade volume
+Get the total traded volume on all exchanges by asset-denominator and interval.
+- [`getTotalTradeVolume(asset, denominator, interval)`](https://docs.blockfacts.io/?python#total-trade-volume)
 
 ```python
-jsonResponse = restClient.exchanges.getEndOfDayData("BTC", "USD", "KRAKEN", 5)
+jsonResponse = restClient.exchanges.getTotalTradeVolume("BTC", "USD", "1d")
+```
+
+### Period movers
+Get the moving percentage, and difference in price over a certain time period.
+- [`getPeriodMovers(exchange, denominator, date, interval, sort)`](https://docs.blockfacts.io/?python#period-movers-2)
+
+```python
+jsonResponse = restClient.exchanges.getPeriodMovers("KRAKEN", "USD", "11.8.2020", "sevenDay", -1)
 ```
 
 ## Using WebSocket API Client
